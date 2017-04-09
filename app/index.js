@@ -1,73 +1,50 @@
+var USER_INFO = {
+  name    : 'Hien Vuong',
+  username: 'hienvd',
+  image   : 'https://avatars1.githubusercontent.com/u/6824457?v=3&s=460'
+}
 var React = require('react');
 var ReactDom = require('react-dom');
 
-var FriendContainer = React.createClass({
-  render: function() {
-    let name = 'Hien Vuong';
-    let friends = ['Hong Pham', 'Khanh An'];
-    return (
-      <div>
-        <h3>Name: {name} </h3>
-        <FriendList friends={friends} />
-      </div>
-    )
-  }
-})
-
-var FriendList = React.createClass({
-  render: function() {
-    let listNames = this.props.friends.map( friend => {
-      return <li> {friend} </li>
-    })
-
-    return (
-      <div>
-        <h3>Friends</h3>
-        <ul>
-          {listNames}
-        </ul>
-      </div>
-    )
-  }
-})
-
-ReactDom.render(
-  <FriendContainer/>,
-  document.getElementById('app')
-)
-
 //--- React function composition
 
-var ProfilePic1 = React.createClass({
+var ProfilePic = React.createClass({
+  render: function() {
+    return <img src={this.props.imageUrl} style={{height: 100, width: 100}} />
+  }
+})
+
+var ProfileLink = React.createClass({
   render: function() {
     return (
-      <img src={'https://twitter.com/' + this.props.username + '/profile_image?size=normal'}/>
+      <div>
+        <a href={'https://github.com/' + this.props.username}>
+          { this.props.username }
+        </a>
+      </div>
     )
   }
 })
 
-var ProfilePic = function (props) {
-  return <img src={'https://twitter.com/' + props.username + '/profile_image?size=normal'}/>
-}
+var ProfileName = React.createClass({
+  render: function() {
+    return <div> { this.props.name } </div>
+  }
+})
 
-var ProfileLink = function(props) {
-  return (
-    <a href={'https://www.twitter.com/' + props.username}>
-     Go to Twitter
-    </a>
-  )
-}
-
-var Avatar = function(props) {
-  return (
-    <div>
-      <ProfilePic username={props.username} />
-      <ProfileLink username={props.username} />
-    </div>
-  )
-}
+var Avatar = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <ProfilePic imageUrl={this.props.user.image} />
+        <ProfileName name={this.props.user.name} />
+        <ProfileLink username={this.props.user.username} />
+      </div>
+    )
+  }
+})
 
 ReactDom.render(
-  <Avatar username='duchienvuong' />,
-  document.getElementById('twitter')
+  <Avatar user={USER_INFO}/>,
+  document.getElementById('app')
 )
